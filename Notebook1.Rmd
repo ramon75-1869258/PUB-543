@@ -91,28 +91,4 @@ ggplot(data=grade6, aes(x=SchoolYear,
 ```
 
 
-```{r}
-library(scales) # for "unit_format""
-
-# customize Y axis
-plot4 = plot3 + scale_y_continuous(breaks=c(500000, 1000000,2000000),
-                                   limits = c(0, 2700000), 
-                                   labels=unit_format(suffix = '')) 
-plot4
-```
-```{r}
-#positions: 0 left / 1 right / 0.5 center
-plot5 = plot4 + theme(plot.caption = element_text(hjust = 0), 
-                      plot.title = element_text(hjust = 0.5))
-plot5
-```
-```{r}
-paste0(round(mydata$Percent,2), '%')
-```
-
-
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
 
