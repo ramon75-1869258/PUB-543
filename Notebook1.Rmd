@@ -1,0 +1,118 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+rm(list = ls())
+mydata = read.csv('https://raw.githubusercontent.com/alyssatn/RWorkshopHW/main/Report_Card_Enrollment_from_2014-15_to_Current_Year.csv')
+
+```
+
+```{r}
+str(mydata)
+```
+
+```{r}
+summary(mydata$All.Students)
+```
+
+```{r}
+mydata$All.Students=gsub(pattern = ',', replacement = "",mydata$All.Students)
+```
+
+```{r}
+mydata$All.Students=as.numeric(mydata$All.Students)
+```
+
+```{r}
+summary(mydata$All.Students)
+```
+\
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+```{r}
+grade6=mydata[mydata$Gradelevel=="6th Grade",]
+```
+
+```{r}
+library(ggplot2)
+
+base=ggplot(data=grade6,
+            aes(x=SchoolYear,
+                y=All.Students))
+plot1=base+ geom_bar( fill = "blue",
+                      stat = 'identity')
+plot1
+```
+
+```{r}
+titleText = 'Number of Sixth Graders Enrolled Annually'
+sourceText= 'Source: WA Department of Education'
+
+plot2 = plot1 + labs(title=titleText,
+                     x =NULL, 
+                     y = NULL,
+                     caption = sourceText) 
+plot2
+```
+
+```{r}
+base= ggplot(data = grade6, 
+             aes(x = SchoolYear,
+                 y = All.Students)) 
+
+plot1 = base + geom_bar(fill ="blue",
+                        stat = 'identity') 
+
+plot2 = plot1 + labs(title=titleText,
+                     x =NULL, 
+                     y = NULL,
+                     caption = sourceText)
+
+
+plot2
+
+```
+```{r}
+meanSt=mean(grade6$All.Students)
+```
+
+```{r}
+grade6$gap=grade6$All.Students-78603
+```
+grade6
+```{r}
+ggplot(data=grade6, aes(x=SchoolYear,
+                        y=gap)) + geom_histogram(stat='identity')
+```
+
+
+```{r}
+library(scales) # for "unit_format""
+
+# customize Y axis
+plot4 = plot3 + scale_y_continuous(breaks=c(500000, 1000000,2000000),
+                                   limits = c(0, 2700000), 
+                                   labels=unit_format(suffix = '')) 
+plot4
+```
+```{r}
+#positions: 0 left / 1 right / 0.5 center
+plot5 = plot4 + theme(plot.caption = element_text(hjust = 0), 
+                      plot.title = element_text(hjust = 0.5))
+plot5
+```
+```{r}
+paste0(round(mydata$Percent,2), '%')
+```
+
+
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
